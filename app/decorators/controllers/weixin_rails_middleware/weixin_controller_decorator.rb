@@ -5,13 +5,55 @@
 WeixinRailsMiddleware::WeixinController.class_eval do
 
   def reply
-    render xml: send("response_#{@weixin_message.MsgType}_message", {})
+    if @weixin_message.MsgType == 'text'
+      re = ApiClient.post(Key.tuling.url,option_merge_key({info: @keyword}))
+      if re.body
+        case re.body[:code]
+          when 100000
+            render xml: response_text_message(re.body)
+          when 200000
+            render xml: response_text_url_message(re.body)
+          when 302000
+            render xml: response_news_message(re.body)
+          when 308000
+            render xml: response_foods_message(re.body)
+          else
+            render xml: response_text_message(re.body)
+        end
+      end
+    end
+    # render xml: send("response_#{@weixin_message.MsgType}_message", {})
   end
 
   private
 
+    def option_merge_key(options = {})
+      options.merge!({key: Key.tuling.key})
+    end
+
+    def response_news_message(options = {})
+      data = []
+      options[:list].each do |list|
+        data << generate_article(list['article'], list['source'], list['icon'], list['detailurl'])
+      end
+      reply_news_message(data)
+    end
+
+    def response_foods_message(options = {})
+      data = []
+      options[:list].each do |list|
+        data << generate_article(list['name'], list['info'], list['icon'], list['detailurl'])
+      end
+      reply_news_message(data[0..5])
+    end
+
+
     def response_text_message(options={})
-      reply_text_message("Your Message: #{@keyword}")
+      reply_text_message(options[:text])
+    end
+
+    def response_text_url_message(options = {})
+      reply_text_message(options[:text] + "\r\n<a href='#{options[:url]}'>点击这里</a>")
     end
 
     # <Location_X>23.134521</Location_X>
