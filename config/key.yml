@@ -1,0 +1,13 @@
+defaults: &defaults
+  tuling:
+    key: 'cb2776c2c1bfffe698d028fe478c8d54'
+    url: 'http://www.tuling123.com/openapi/api'
+    secret: '26ed1910ec6817bb'
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

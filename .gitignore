@@ -21,7 +21,6 @@
 /log/*
 /tmp/*
 /vendor/*
-/config/*.yml
 
 # Ignore Byebug command history file.
 .byebug_history
