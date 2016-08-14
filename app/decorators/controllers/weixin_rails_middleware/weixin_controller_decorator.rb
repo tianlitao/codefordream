@@ -5,22 +5,25 @@
 WeixinRailsMiddleware::WeixinController.class_eval do
 
   def reply
-    if @weixin_message.MsgType == 'text'
-      re = ApiClient.post(Key.tuling.url,option_merge_key({info: @keyword}))
-      if re.body
-        case re.body[:code]
-          when 100000
-            render xml: response_text_message(re.body)
-          when 200000
-            render xml: response_text_url_message(re.body)
-          when 302000
-            render xml: response_news_message(re.body)
-          when 308000
-            render xml: response_foods_message(re.body)
-          else
-            render xml: response_text_message(re.body)
+    case @weixin_message.MsgType
+      when 'text'
+        re = ApiClient.post(Key.tuling.url,option_merge_key({info: @keyword}))
+        if re.body
+          case re.body[:code]
+            when 100000
+              render xml: response_text_message(re.body)
+            when 200000
+              render xml: response_text_url_message(re.body)
+            when 302000
+              render xml: response_news_message(re.body)
+            when 308000
+              render xml: response_foods_message(re.body)
+            else
+              render xml: response_text_message(re.body)
+          end
         end
-      end
+      when 'event'
+        render xml: response_event_message({})
     end
     # render xml: send("response_#{@weixin_message.MsgType}_message", {})
   end
@@ -119,19 +122,19 @@ WeixinRailsMiddleware::WeixinController.class_eval do
     def handle_subscribe_event
       if @keyword.present?
         # 扫描带参数二维码事件: 1. 用户未关注时，进行关注后的事件推送
-        return reply_text_message("扫描带参数二维码事件: 1. 用户未关注时，进行关注后的事件推送, keyword: #{@keyword}")
+        return reply_text_message("欢迎关注小c，你可以问小c任何事情。\r\n例：1.明天北京到石家庄的火车.\r\n 2.明天北京的天气. \r\n 3.老醋花生的做法. \r\n 4.当然你还可以调戏我,讲个笑话也是可以的~~")
       end
-      reply_text_message("关注公众账号")
+      reply_text_message("感谢您关注codefordream")
     end
 
     # 取消关注
     def handle_unsubscribe_event
-      Rails.logger.info("取消关注")
+      Rails.logger.info("小c很是伤心~~")
     end
 
     # 扫描带参数二维码事件: 2. 用户已关注时的事件推送
     def handle_scan_event
-      reply_text_message("扫描带参数二维码事件: 2. 用户已关注时的事件推送, keyword: #{@keyword}")
+      reply_text_message("欢迎关注小c，你可以问小c任何事情。\r\n例：1.明天北京到石家庄的火车.\r\n 2.明天北京的天气. \r\n 3.老醋花生的做法. \r\n 4.当然你还可以调戏我,讲个笑话也是可以的~~")
     end
 
     def handle_location_event # 上报地理位置事件
