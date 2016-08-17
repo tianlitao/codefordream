@@ -50,10 +50,10 @@ WeixinRailsMiddleware::WeixinController.class_eval do
       data = []
       options['playlinks'].keys.each do |source|
         data << generate_article(options['title'] + "(#{source})", source, options['cover'], options['playlinks'][source])
-      end if options['playlinks'].keys.present?
+      end if options['playlinks'].present?
       options['video_rec'].each do |source|
         data << generate_article(source['title'], options['desc'], source['cover'], source['detail_url'])
-      end if options['playlinks'].keys.blank? && options['video_rec'].keys.present?
+      end if options['playlinks'].blank? && options['video_rec'].present?
 
       reply_news_message(data)
     end
