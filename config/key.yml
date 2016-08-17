@@ -3,6 +3,9 @@ defaults: &defaults
     key: 'cb2776c2c1bfffe698d028fe478c8d54'
     url: 'http://www.tuling123.com/openapi/api'
     secret: '26ed1910ec6817bb'
+  video:
+    url: 'http://op.juhe.cn/onebox/movie/video'
+    app_key: '08fda78e80131713ac20618d00083929'
 development:
   <<: *defaults
 

@@ -3,3 +3,14 @@ defaults: &defaults
     key:
     url:
     secret:
+  video:
+    url:
+    app_key:
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

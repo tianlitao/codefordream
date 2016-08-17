@@ -7,23 +7,27 @@ WeixinRailsMiddleware::WeixinController.class_eval do
   def reply
     case @weixin_message.MsgType
       when 'text'
+        if @keyword.include?('视频')
+          re = ApiClient.get(Key.video.url,{key: Key.video.app_key,q: @keyword.delete('视频 ')})
+          return render xml: response_videos_message(re.rs) if re.body['reason'] == '查询成功'
+        end
         re = ApiClient.post(Key.tuling.url,option_merge_key({info: @keyword}))
         if re.body
           case re.body[:code]
             when 100000
-              render xml: response_text_message(re.body)
+              return render xml: response_text_message(re.body)
             when 200000
-              render xml: response_text_url_message(re.body)
+              return render xml: response_text_url_message(re.body)
             when 302000
-              render xml: response_news_message(re.body)
+              return render xml: response_news_message(re.body)
             when 308000
-              render xml: response_foods_message(re.body)
+              return render xml: response_foods_message(re.body)
             else
-              render xml: response_text_message(re.body)
+              return render xml: response_text_message(re.body)
           end
         end
       when 'event'
-        render xml: response_event_message({})
+        return render xml: response_event_message({})
     end
     # render xml: send("response_#{@weixin_message.MsgType}_message", {})
   end
@@ -38,6 +42,14 @@ WeixinRailsMiddleware::WeixinController.class_eval do
       data = []
       options[:list].each do |list|
         data << generate_article(list['article'], list['source'], list['icon'], list['detailurl'])
+      end
+      reply_news_message(data)
+    end
+
+    def response_videos_message(options = {})
+      data = []
+      options['playlinks'].keys.each do |source|
+        data << generate_article(options['title'], options['playlinks'][source], options['cover'], source)
       end
       reply_news_message(data)
     end
