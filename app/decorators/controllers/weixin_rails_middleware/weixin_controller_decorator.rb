@@ -9,7 +9,7 @@ WeixinRailsMiddleware::WeixinController.class_eval do
       when 'text'
         if @keyword.include?('视频')
           re = ApiClient.get(Key.video.url,{key: Key.video.app_key,q: @keyword.delete('视频 ')})
-          return render xml: response_videos_message(re.rs) if re.body['reason'] == '查询成功'
+          return render xml: response_videos_message(re.rs) if re.body[:reason] == '查询成功'
         end
         re = ApiClient.post(Key.tuling.url,option_merge_key({info: @keyword}))
         if re.body
