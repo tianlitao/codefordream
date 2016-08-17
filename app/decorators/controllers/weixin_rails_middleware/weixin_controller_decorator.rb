@@ -49,7 +49,7 @@ WeixinRailsMiddleware::WeixinController.class_eval do
     def response_videos_message(options = {})
       data = []
       options['playlinks'].keys.each do |source|
-        data << generate_article(options['title'], source, options['cover'], options['playlinks'][source])
+        data << generate_article(options['title'] + "(#{source})", source, options['cover'], options['playlinks'][source])
       end
       reply_news_message(data)
     end
