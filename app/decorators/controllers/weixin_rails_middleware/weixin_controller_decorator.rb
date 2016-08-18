@@ -8,8 +8,10 @@ WeixinRailsMiddleware::WeixinController.class_eval do
     case @weixin_message.MsgType
       when 'text'
         if @keyword.include?('视频')
-          re = ApiClient.get(Key.video.url,{key: Key.video.app_key,q: @keyword.delete('视频 ')})
-          return render xml: response_videos_message(re.rs) if re.body[:reason] == '查询成功'
+          # re = ApiClient.get(Key.video.url,{key: Key.video.app_key,q: @keyword.delete('视频 ')})
+          # return render xml: response_videos_message(re.rs) if re.body[:reason] == '查询成功'
+          re = Snatch.snatch_qq_vip_video(@keyword.delete('视频 '))
+          return render xml: response_qq_url_message(re)
         end
         re = ApiClient.post(Key.tuling.url,option_merge_key({info: @keyword}))
         if re.body
@@ -73,6 +75,14 @@ WeixinRailsMiddleware::WeixinController.class_eval do
 
     def response_text_url_message(options = {})
       reply_text_message(options[:text] + "\r\n<a href='#{options[:url]}'>点击这里</a>")
+    end
+
+    def response_qq_url_message(options = [])
+      text = "#{@keyword.delete('视频 ')}\r\n"
+      options.each do |list|
+        text += "<a href='#{list[:href]}'>#{list[:name]}</a>\r\n"
+      end
+      reply_text_message text
     end
 
     # <Location_X>23.134521</Location_X>

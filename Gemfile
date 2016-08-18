@@ -50,3 +50,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'weixin_rails_middleware'
 gem 'rest_client', '1.8.2'
 gem 'settingslogic'
+gem 'mechanize'

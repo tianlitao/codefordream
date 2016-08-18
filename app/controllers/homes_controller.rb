@@ -4,6 +4,8 @@ class HomesController < ApplicationController
   # GET /homes
   # GET /homes.json
   def index
+    byebug
+    ApiClient.get("http://www.aikantv.cc/ydisk/qq.php?url=#{params[:url]}",'User-Agent' => '')
   end
 
   # GET /homes/1
