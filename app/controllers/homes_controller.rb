@@ -4,8 +4,11 @@ class HomesController < ApplicationController
   # GET /homes
   # GET /homes.json
   def index
-    byebug
-    ApiClient.get("http://www.aikantv.cc/ydisk/qq.php?url=#{params[:url]}",'User-Agent' => '')
+    # page = Nokogiri::HTML open("http://www.aikantv.cc/ydisk/qq.php?url=#{params[:url]}")
+    agent = Mechanize.new
+    page1 = agent.get("http://www.aikantv.cc/ydisk/qq.php?url=#{params[:url]}", :referer => "http://www.baidu.com")
+    a = Nokogiri::HTML page1.body
+    @url = a.css("script")[2].text.match(/url = '(.*)';/ ).to_a.last
   end
 
   # GET /homes/1

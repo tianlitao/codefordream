@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require ckplayer
 //= require jquery-weui.min
 //= require Iva
 //= require_tree .
