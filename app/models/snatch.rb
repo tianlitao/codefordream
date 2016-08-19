@@ -5,7 +5,10 @@ class Snatch < ActiveRecord::Base
     a = []
     page.css("div[class='_playlist']").first.css("div[class='item']").each do |item|
       next if item.css('span').present? && item.css('span img')[0]['alt'] == '预告'
-      a << {name: item.css('a')[0].text.to_i == 0 ? item.css('a')[0].text : "第#{item.css('a')[0].text}集",href: "http://tianlitao.ittun.com/homes?url=#{item.css('a')[0]['href']}"}
+      a << {name: item.css('a')[0].text.to_i == 0 ? item.css('a')[0].text : "第#{item.css('a')[0].text}集",href: "http://120.25.245.217:8000/homes?url=#{item.css('a')[0]['href']}"}
+    end
+    page.css("div[class='_playlist']").first.css("div[class='result_btn_line']").each do |item|
+      a << {name:  item.css('a')[0].text == '免费试看' ? '免费观看' : item.css('a')[0].text ,href: "http://120.25.245.217:8000/homes?url=#{item.css('a')[0]['href']}"}
     end
     a
   end
