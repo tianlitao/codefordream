@@ -148,9 +148,9 @@ WeixinRailsMiddleware::WeixinController.class_eval do
     def handle_subscribe_event
       if @keyword.present?
         # 扫描带参数二维码事件: 1. 用户未关注时，进行关注后的事件推送
-        return reply_text_message("欢迎关注小c，你可以问小c任何事情。\r\n例：1.明天北京到石家庄的火车.\r\n 2.明天北京的天气. \r\n 3.老醋花生的做法.\r\n 4.新闻. \r\n 5.视频 柯南. \r\n 6.当然你还可以调戏我,讲个笑话也是可以的~~")
+        return reply_text_message("欢迎关注小c，你可以问小c任何事情。\r\n例：1.明天北京到石家庄的火车.\r\n 2.明天北京的天气. \r\n 3.老醋花生的做法.\r\n 4.新闻. \r\n 5.视频 青云志. \r\n 6.当然你还可以调戏我,讲个笑话也是可以的~~")
       end
-      reply_text_message("欢迎关注小c，你可以问小c任何事情。\r\n例：1.明天北京到石家庄的火车.\r\n 2.明天北京的天气. \r\n 3.老醋花生的做法.\r\n 4.新闻. \r\n 5.视频 柯南.\r\n 6.当然你还可以调戏我,讲个笑话也是可以的~~")
+      reply_text_message("欢迎关注小c，你可以问小c任何事情。\r\n例：1.明天北京到石家庄的火车.\r\n 2.明天北京的天气. \r\n 3.老醋花生的做法.\r\n 4.新闻. \r\n 5.视频 青云志.\r\n 6.当然你还可以调戏我,讲个笑话也是可以的~~")
     end
 
     # 取消关注
@@ -160,7 +160,7 @@ WeixinRailsMiddleware::WeixinController.class_eval do
 
     # 扫描带参数二维码事件: 2. 用户已关注时的事件推送
     def handle_scan_event
-      reply_text_message("欢迎关注小c，你可以问小c任何事情。\r\n例：1.明天北京到石家庄的火车.\r\n 2.明天北京的天气. \r\n 3.老醋花生的做法.\r\n 4.新闻. \r\n 5.视频 柯南. \r\n 6.当然你还可以调戏我,讲个笑话也是可以的~~")
+      reply_text_message("欢迎关注小c，你可以问小c任何事情。\r\n例：1.明天北京到石家庄的火车.\r\n 2.明天北京的天气. \r\n 3.老醋花生的做法.\r\n 4.新闻. \r\n 5.视频 青云志. \r\n 6.当然你还可以调戏我,讲个笑话也是可以的~~")
     end
 
     def handle_location_event # 上报地理位置事件
