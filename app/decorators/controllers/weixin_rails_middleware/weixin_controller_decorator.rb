@@ -10,7 +10,7 @@ WeixinRailsMiddleware::WeixinController.class_eval do
         if @keyword.include?('视频')
           # re = ApiClient.get(Key.video.url,{key: Key.video.app_key,q: @keyword.delete('视频 ')})
           # return render xml: response_videos_message(re.rs) if re.body[:reason] == '查询成功'
-          re = Snatch.snatch_qq_vip_video(@keyword.delete('视频 '))
+          re = Snatch.snatch_qq_vip_video(@keyword.delete('视频'))
           return render xml: response_qq_url_message(re)
         end
         re = ApiClient.post(Key.tuling.url,option_merge_key({info: @keyword}))
