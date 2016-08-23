@@ -8,9 +8,14 @@ class HomesController < ApplicationController
     case
       when params[:url].include?('qq')
         agent = Mechanize.new
-        page1 = agent.get("http://www.aikantv.cc/ydisk/qq.php?url=#{params[:url]}", :referer => "http://www.baidu.com")
+        page1 = agent.get("http://api.aikantv.cc/qq.php?url=#{params[:url]}", :referer => "http://www.baidu.com")
         a = Nokogiri::HTML page1.body
-        @url = 'http://113.200.90.23/vipzj.video.tc.qq.com' + a.css("script")[2].text.match(/url = '(.*)';/ ).to_a.last.to_s
+        @url =  case a.css("script")[2].text.match(/url = '(.*)';/ ).to_a.last.to_s
+                  when ''
+                    a.css("script")[1].text.match(/url='(.*)';/ ).to_a.last
+                  else
+                    'http://113.200.90.23/vipzj.video.tc.qq.com' + a.css("script")[2].text.match(/url = '(.*)';/ ).to_a.last.to_s
+                end
       else
 
     end
