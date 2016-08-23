@@ -5,10 +5,15 @@ class HomesController < ApplicationController
   # GET /homes.json
   def index
     # page = Nokogiri::HTML open("http://www.aikantv.cc/ydisk/qq.php?url=#{params[:url]}")
-    agent = Mechanize.new
-    page1 = agent.get("http://www.aikantv.cc/ydisk/qq.php?url=#{params[:url]}", :referer => "http://www.baidu.com")
-    a = Nokogiri::HTML page1.body
-    @url = a.css("script")[2].text.match(/url = '(.*)';/ ).to_a.last
+    case
+      when params[:url].include?('qq')
+        agent = Mechanize.new
+        page1 = agent.get("http://www.aikantv.cc/ydisk/qq.php?url=#{params[:url]}", :referer => "http://www.baidu.com")
+        a = Nokogiri::HTML page1.body
+        @url = 'http://113.200.90.23/vipzj.video.tc.qq.com' + a.css("script")[2].text.match(/url = '(.*)';/ ).to_a.last.to_s
+      else
+
+    end
   end
 
   # GET /homes/1
